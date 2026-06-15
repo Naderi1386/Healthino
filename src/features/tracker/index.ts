@@ -1,2 +1,1 @@
-// Tracker feature public API boundary
-export {};
+export { TrackerPage } from './pages/TrackerPage';

@@ -1,2 +1,1 @@
-// Data Management feature public API boundary
-export {};
+export { GuidePage } from './pages/GuidePage';

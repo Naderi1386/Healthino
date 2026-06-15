@@ -1,2 +1,1 @@
-// Insights feature public API boundary
-export {};
+export { InsightsPage } from './pages/InsightsPage';

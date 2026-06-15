@@ -1,2 +1,1 @@
-// Dashboard feature public API boundary
-export {};
+export { DashboardPage } from './pages/DashboardPage';
