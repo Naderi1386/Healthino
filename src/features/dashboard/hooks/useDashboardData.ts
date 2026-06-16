@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { safeGetAllDailyLogs, safeGetUserProfile } from '../../../core/db';
+import { safeGetAllDailyLogs } from '../../../core/db';
 import type { DailyLog, UserProfile } from '../../../core/db/types';
 import { mockDailyLogs, mockUserProfile } from '../utils/mockDashboardData';
+import { useProfileStore } from '../../../shared/hooks/useProfileStore';
 
 export interface UseDashboardDataResult {
   dailyLogs: DailyLog[];
@@ -13,40 +14,27 @@ export interface UseDashboardDataResult {
 
 export const useDashboardData = (): UseDashboardDataResult => {
   const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
-  const [userProfile, setUserProfile] = useState<UserProfile>(mockUserProfile);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const storeProfile = useProfileStore((state) => state.profile);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const [dbLogs, dbProfile] = await Promise.all([
-        safeGetAllDailyLogs(),
-        safeGetUserProfile('current'),
-      ]);
+      const dbLogs = await safeGetAllDailyLogs();
 
-      // Handle daily logs fallback if empty
       if (dbLogs && dbLogs.length > 0) {
-        // Sort chronologically by date ascending
         const sortedLogs = [...dbLogs].sort((a, b) => a.date.localeCompare(b.date));
         setDailyLogs(sortedLogs);
       } else {
         setDailyLogs(mockDailyLogs);
       }
-
-      // Handle user profile fallback if not exists
-      if (dbProfile) {
-        setUserProfile(dbProfile);
-      } else {
-        setUserProfile(mockUserProfile);
-      }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown database error occurred';
       setError(message);
-      // Fallback on error to ensure a graceful fail-safe UI
       setDailyLogs(mockDailyLogs);
-      setUserProfile(mockUserProfile);
     } finally {
       setIsLoading(false);
     }
@@ -55,6 +43,19 @@ export const useDashboardData = (): UseDashboardDataResult => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Construct the UserProfile domain object using localStorage data or fallback
+  const userProfile: UserProfile = storeProfile
+    ? {
+        id: 'current',
+        height: storeProfile.height,
+        weight: storeProfile.weight,
+        age: storeProfile.age,
+        gender: storeProfile.gender === 'male' ? 'Male' : storeProfile.gender === 'female' ? 'Female' : 'Other',
+        goal: storeProfile.goal === 'lose' ? 'Lose weight' : storeProfile.goal === 'gain' ? 'Gain weight' : 'Maintain weight',
+        updatedAt: new Date(),
+      }
+    : mockUserProfile;
 
   return {
     dailyLogs,
