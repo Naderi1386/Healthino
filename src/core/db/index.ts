@@ -14,7 +14,7 @@ export class HealthinoDatabase extends Dexie {
       });
     } catch (error) {
       console.error('Failed to initialize Dexie schemas:', error);
-      throw new Error('Database schema declaration failed.');
+      throw new Error('Database schema declaration failed.', { cause: error });
     }
   }
 }
@@ -49,7 +49,7 @@ export async function safeSaveUserProfile(profile: UserProfile): Promise<void> {
   } catch (error) {
     const errorDetails = error instanceof Error ? error.message : String(error);
     console.error('Failed writing user profile:', errorDetails);
-    throw new Error(`Failed to save user profile: ${errorDetails}`);
+    throw new Error(`Failed to save user profile: ${errorDetails}`, { cause: error });
   }
 }
 
@@ -59,7 +59,7 @@ export async function safeGetUserProfile(id: string = 'current'): Promise<UserPr
   } catch (error) {
     const errorDetails = error instanceof Error ? error.message : String(error);
     console.error('Failed reading user profile:', errorDetails);
-    throw new Error(`Failed to load user profile: ${errorDetails}`);
+    throw new Error(`Failed to load user profile: ${errorDetails}`, { cause: error });
   }
 }
 
@@ -69,7 +69,7 @@ export async function safeSaveDailyLog(log: DailyLog): Promise<void> {
   } catch (error) {
     const errorDetails = error instanceof Error ? error.message : String(error);
     console.error('Failed writing daily log:', errorDetails);
-    throw new Error(`Failed to save daily log: ${errorDetails}`);
+    throw new Error(`Failed to save daily log: ${errorDetails}`, { cause: error });
   }
 }
 
@@ -79,7 +79,7 @@ export async function safeGetDailyLog(date: string): Promise<DailyLog | undefine
   } catch (error) {
     const errorDetails = error instanceof Error ? error.message : String(error);
     console.error('Failed reading daily log:', errorDetails);
-    throw new Error(`Failed to load daily log: ${errorDetails}`);
+    throw new Error(`Failed to load daily log: ${errorDetails}`, { cause: error });
   }
 }
 
@@ -89,6 +89,6 @@ export async function safeGetAllDailyLogs(): Promise<DailyLog[]> {
   } catch (error) {
     const errorDetails = error instanceof Error ? error.message : String(error);
     console.error('Failed loading daily logs:', errorDetails);
-    throw new Error(`Failed to load all daily logs: ${errorDetails}`);
+    throw new Error(`Failed to load all daily logs: ${errorDetails}`, { cause: error });
   }
 }

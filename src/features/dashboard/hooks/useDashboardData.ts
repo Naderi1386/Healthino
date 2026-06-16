@@ -41,7 +41,17 @@ export const useDashboardData = (): UseDashboardDataResult => {
   }, []);
 
   useEffect(() => {
-    fetchData();
+    let active = true;
+    const run = async () => {
+      await Promise.resolve();
+      if (active) {
+        fetchData();
+      }
+    };
+    run();
+    return () => {
+      active = false;
+    };
   }, [fetchData]);
 
   // Construct the UserProfile domain object using localStorage data or fallback
