@@ -22,9 +22,11 @@ export const AsideMenu: React.FC<AsideMenuProps> = ({ onLinkClick }) => {
       <div className="space-y-8">
         {/* Brand/Logo header */}
         <div className="flex items-center gap-3 px-2 py-4">
-          <div className="w-10 h-10 rounded-xl bg-accent-primary flex items-center justify-center shadow-xs">
-            <span className="text-xl text-background font-bold font-sans">H</span>
-          </div>
+          <img
+            src="/healthino-logo.png"
+            alt="Healthino Logo"
+            className="w-10 h-10 rounded-xl object-cover shrink-0"
+          />
           <div>
             <span className="text-xl font-bold font-sans text-text-primary tracking-tight">Healthino</span>
             <span className="block text-xs font-medium font-sans text-accent-primary">Local-First Wellness</span>

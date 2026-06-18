@@ -11,9 +11,11 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({ isOpen, onToggle }) 
   return (
     <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-card-bg border-b border-text-primary/5 sticky top-0 z-40">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center">
-          <span className="text-sm text-background font-bold font-sans">H</span>
-        </div>
+        <img
+          src="/healthino-logo.png"
+          alt="Healthino Logo"
+          className="w-8 h-8 rounded-lg object-cover shrink-0"
+        />
         <span className="text-lg font-bold font-sans text-text-primary tracking-tight">Healthino</span>
       </div>
 
