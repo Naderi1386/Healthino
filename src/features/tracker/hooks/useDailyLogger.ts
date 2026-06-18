@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { safeGetDailyLog, safeSaveDailyLog, safeGetAllDailyLogs } from '../../../core/db';
 import type { DailyLog } from '../../../core/db/types';
-import { mockDailyLogs } from '../../dashboard/utils/mockDashboardData';
 
 export interface UseDailyLoggerResult {
   selectedDate: string;
@@ -36,13 +35,12 @@ export const useDailyLogger = (): UseDailyLoggerResult => {
       if (dbLogs && dbLogs.length > 0) {
         setAllLogs(dbLogs);
       } else {
-        // Fallback to mock data if IndexedDB is empty (aligns with dashboard logic)
-        setAllLogs(mockDailyLogs);
+        setAllLogs([]);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to retrieve logs from IndexedDB';
       setError(message);
-      setAllLogs(mockDailyLogs);
+      setAllLogs([]);
     }
   }, []);
 

@@ -8,6 +8,35 @@ export interface ForecastCardProps {
 }
 
 export const ForecastCard: React.FC<ForecastCardProps> = ({ dailyLogs, userProfile }) => {
+  if (dailyLogs.length === 0) {
+    return (
+      <div className="flex flex-col h-full justify-between font-sans">
+        <div className="flex items-start space-x-4">
+          <div className="p-3 rounded-xl bg-accent-primary/10 text-accent-primary shrink-0">
+            <Target className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-text-primary/50">
+              Rule-Based Forecast
+            </span>
+            <h3 className="text-lg font-bold text-text-primary mt-0.5">Awaiting Data</h3>
+          </div>
+        </div>
+
+        <div className="mt-4 bg-background/50 border border-text-primary/5 rounded-xl p-4">
+          <p className="text-xs text-text-primary/65 leading-relaxed">
+            Log at least one day in the Tracker to compile your personalized health trajectory and rule-based goal projection.
+          </p>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between text-xs text-text-primary/50 border-t border-text-primary/5 pt-3">
+          <span>Goal: <strong className="text-text-primary/70 font-semibold">{userProfile.goal || 'Maintain'}</strong></span>
+          <span>Ratio: <strong className="text-text-primary/70 font-semibold">--</strong></span>
+        </div>
+      </div>
+    );
+  }
+
   const goalStr = userProfile.goal || 'Lose weight';
   const goalClean = goalStr.toLowerCase();
 

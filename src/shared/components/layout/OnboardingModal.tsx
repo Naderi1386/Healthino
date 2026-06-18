@@ -26,7 +26,7 @@ export const OnboardingModal: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
         className="absolute inset-0 bg-[#1C2421]/45 backdrop-blur-sm"
       />
 
@@ -35,7 +35,7 @@ export const OnboardingModal: React.FC = () => {
         initial={{ scale: 0.95, opacity: 0, y: 15 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 15 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
         className="relative bg-card-bg w-full max-w-md p-8 rounded-3xl shadow-xl border border-text-primary/10 z-10"
       >
         <div className="text-center mb-6">

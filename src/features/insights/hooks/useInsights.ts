@@ -3,7 +3,6 @@ import { safeGetAllDailyLogs } from '../../../core/db';
 import type { DailyLog } from '../../../core/db/types';
 import { useProfileStore } from '../../../shared/hooks/useProfileStore';
 import { evaluateDailyLogs, type Insight } from '../utils/ruleEngine';
-import { mockDailyLogs } from '../../dashboard/utils/mockDashboardData';
 
 export interface UseInsightsResult {
   insights: Insight[];
@@ -25,53 +24,81 @@ export const useInsights = (): UseInsightsResult => {
 
     try {
       const dbLogs = await safeGetAllDailyLogs();
-      let activeLogs: DailyLog[] = [];
-
-      if (dbLogs && dbLogs.length > 0) {
-        activeLogs = dbLogs;
-      } else {
-        // Aligns with dashboard and tracker fallbacks
-        activeLogs = mockDailyLogs;
-      }
+      const activeLogs: DailyLog[] = dbLogs && dbLogs.length > 0 ? dbLogs : [];
 
       // Check if we have fewer than 3 days of historical logs
       if (activeLogs.length < 3) {
-        // Fallback UI State
-        const welcomeCard: Insight = {
-          id: 'welcome-card',
-          type: 'success',
-          title: 'Welcome to Healthino Insights!',
-          message: 'Our offline rule-based insights engine analyzes your daily hydration levels and diet choices. Log at least 3 days in the Tracker to unlock full analysis.',
-          iconName: 'Sparkles',
-        };
-
-        const goal = profile?.goal ?? 'maintain';
-        let goalTitle = 'Weight Maintenance Focus';
-        let goalMsg = 'Goal Strategy: Focus on energy balance. Keep your protein intake stable and balance whole foods with physical activity.';
-
-        if (goal === 'lose') {
-          goalTitle = 'Weight Loss Strategy';
-          goalMsg = 'Goal Strategy: Prioritize high-volume, low-calorie foods. Focus on high protein and raw vegetables to maximize satiety while keeping hydration high.';
-        } else if (goal === 'gain') {
-          goalTitle = 'Weight Gain Strategy';
-          goalMsg = 'Goal Strategy: Consume nutrient-dense, calorie-dense foods (healthy fats, complex carbohydrates). Ensure consistent post-workout protein intake.';
+        // Retrieve onboarding goal directly from localStorage
+        const stored = localStorage.getItem('healthino_user_profile');
+        let onboardingGoal = profile?.goal;
+        if (!onboardingGoal && stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed.goal === 'string') {
+              onboardingGoal = parsed.goal;
+            }
+          } catch (e) {
+            console.error('Failed to parse onboarding goal from localStorage:', e);
+          }
         }
 
-        const baselineCard: Insight = {
-          id: 'baseline-goal-card',
-          type: 'warning',
-          title: goalTitle,
-          message: goalMsg,
-          iconName: 'Target',
-        };
+        const goal = onboardingGoal || 'maintain';
+        let welcomeCard: Insight;
+        let strategyCard: Insight;
 
-        setInsights([welcomeCard, baselineCard]);
+        if (goal === 'lose') {
+          welcomeCard = {
+            id: 'welcome-card-lose',
+            type: 'success',
+            title: 'Your Journey to Lean Health',
+            message: 'Welcome to Healthino! To optimize your weight loss, log at least 3 days in the Tracker so our local rules engine can pinpoint habits affecting your metabolic efficiency.',
+            iconName: 'Sparkles',
+          };
+          strategyCard = {
+            id: 'strategy-card-lose',
+            type: 'warning',
+            title: 'Precision Deficit Strategy',
+            message: 'Goal Strategy: Prioritize lean proteins (🟢 High Protein) and fresh greens (🟢 Vegetables) to increase metabolic thermogenesis and prolong satiety. Keep daily hydration above 8 glasses to flush sodium and optimize lipolysis.',
+            iconName: 'Target',
+          };
+        } else if (goal === 'gain') {
+          welcomeCard = {
+            id: 'welcome-card-gain',
+            type: 'success',
+            title: 'Your Journey to Strength & Mass',
+            message: 'Welcome to Healthino! To maximize muscle hypertrophy and structural gains, log at least 3 days in the Tracker to unlock full analysis of your anabolic nutrition choices.',
+            iconName: 'Sparkles',
+          };
+          strategyCard = {
+            id: 'strategy-card-gain',
+            type: 'warning',
+            title: 'Anabolic Recovery Strategy',
+            message: 'Goal Strategy: Target clean carbohydrate fuel (🟢 Whole Foods) and premium protein sources. Ensure hydration is maintained above 8 glasses daily to optimize cellular volume and creatine transport.',
+            iconName: 'Target',
+          };
+        } else {
+          welcomeCard = {
+            id: 'welcome-card-maintain',
+            type: 'success',
+            title: 'Your Journey to Metabolic Balance',
+            message: 'Welcome to Healthino! To lock in your weight and maximize daily cellular energy, log at least 3 days in the Tracker to allow our engine to map your stable habit patterns.',
+            iconName: 'Sparkles',
+          };
+          strategyCard = {
+            id: 'strategy-card-maintain',
+            type: 'warning',
+            title: 'Homeostasis & Vitality Focus',
+            message: 'Goal Strategy: Focus on energy equilibrium. Balance clean hydration levels (🟢 Pure Water) with balanced meal distributions (🟡 Balanced Carbs). Keep activity indicators consistent.',
+            iconName: 'Target',
+          };
+        }
+
+        setInsights([welcomeCard, strategyCard]);
       } else {
         // We have at least 3 logs, run evaluations
         const evaluated = evaluateDailyLogs(activeLogs);
 
         if (evaluated.length === 0) {
-          // Prevent a blank screen if logs are present but no conditions were triggered
           const stableCard: Insight = {
             id: 'stable-metrics-card',
             type: 'success',
@@ -87,7 +114,6 @@ export const useInsights = (): UseInsightsResult => {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Database error while aggregating insights';
       setError(message);
-      // Fallback in case of DB failures
       setInsights([
         {
           id: 'db-fallback-card',

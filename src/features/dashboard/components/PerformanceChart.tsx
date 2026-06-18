@@ -64,6 +64,15 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
 };
 
 export const PerformanceChart: React.FC<PerformanceChartProps> = ({ dailyLogs }) => {
+  if (dailyLogs.length === 0) {
+    return (
+      <div className="w-full h-[260px] flex flex-col items-center justify-center border border-dashed border-text-primary/10 rounded-2xl bg-background/20 font-sans p-6 text-center select-none">
+        <p className="text-text-primary/40 text-sm font-semibold">No habits logged yet</p>
+        <p className="text-text-primary/30 text-xs mt-1">Start logging daily meals and activities in the Tracker to view trends.</p>
+      </div>
+    );
+  }
+
   const chartData: ChartDataItem[] = dailyLogs.map((log) => {
     const green = log.tags.filter((t) => t.includes('🟢')).length;
     const yellow = log.tags.filter((t) => t.includes('🟡')).length;
