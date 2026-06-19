@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+Healthino - Product Guide & Documentation
+Phase 1: Minimum Viable Product (MVP) Release
+Welcome to Healthino, a premium, privacy-first, and local-first health and nutrition tracking ecosystem. Healthino is designed to completely eliminate tracking fatigue by replacing tedious calorie counting with an intuitive, low-friction, 3-second tag-based logging matrix.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Product Philosophy & Core Concept
+Traditional health applications often cause user burnout due to the friction of manually searching databases and entering precise gram weights for every meal. Healthino fixes this by introducing an elegant, micro-behavioral tracking loop.
 
-Currently, two official plugins are available:
+Instead of counting numbers, users evaluate their choices via a rapid, color-coded semantic tag matrix:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🟢 Healthy / Nutrient-Dense: High protein, green vegetables, clean whole foods, or pure hydration.
 
-## React Compiler
+🟡 Neutral / Balanced: Moderate carbohydrate meals, bread, or standard balanced processing.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🔴 Unhealthy / Metabolic Stress: Heavy saturated fats, refined sugars, fast foods, or carbonated drinks.
 
-## Expanding the ESLint configuration
+By shifting focus from restriction to recognition, users build sustainable psychological habits in under 3 seconds a day.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Key Product Features
+🌟 Forced Intelligent Onboarding
+Upon the very first visit, Healthino presents a secure, distraction-free onboarding layout. It captures vital baseline physical metrics (Height, Weight, Age, Gender, and personal weight goals). The underlying interface remains heavily blurred and locked until this baseline is completed, ensuring the analytical engine always operates on valid metrics.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+📊 Dynamic Visual Analytics Dashboard
+Concentric Progress Rings: Real-time visual tracking loops mapping daily water consumption percentages and the active "Healthy Eating Habits Score" (the ratio of Green tags vs total inputs).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Comparative Trend Analytics: Interactive, hardware-accelerated charting layers powered by Recharts that map out historical 7-day nutritional choices with premium, minimalist hover states.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Rule-Based Progress Projection: An offline mathematical logic block that continuously runs statistical diagnostics on weekly behavior to deliver dynamic weight optimization forecasts based on the user's explicit profile goal.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+📅 The Performance Tracker Grid
+An immersive calendar interface acting as the primary point of engagement. Each day card changes its color tone dynamically (ambient tints of soft sage green or muted terracotta red) depending on the overall ratio of logged lifestyle choices, giving the user a literal high-level view of their weekly consistency.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+🧠 Deterministic Insights Engine
+An automated offline advisory hub that scans structural trends. It triggers actionable wellness warnings or achievement cards completely locally (e.g., triggering a dehydration alert if the trailing 3-day water average drops below critical thresholds, or dietary feedback if red tags stack up).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. Engineering & Under-the-Hood Architecture
+Healthino operates under a Zero-Server Infrastructure Budget. It does not call external APIs, relies on no cloud databases, and runs entirely in the client's browser thread, ensuring absolute defense against data breaches or network dropouts.
+
+The Technical Stack
+Core UI Engine: React 19+ paired with modern TypeScript (strict: true) for bulletproof type-safety and compile-time error catching.
+
+Styling Architecture: Tailwind CSS v4 utilizing structured design tokens and color variables matching high-end wellness palettes.
+
+State Matrix: Zustand for atomic, performant UI state synchronizations.
+
+Local Client Storage: Dexie.js wrapping asynchronous, transaction-safe IndexedDB lookup pipelines.
+
+Motion Architecture: Framer Motion animating micro-interactions under strict 0.2s execution limits.
+
+Plaintext
+src/
+├── core/                # Global infrastructure initializations (Database, Router)
+├── shared/              # Stateless atomic primitives (<Button />, <Card />)
+└── features/            # Isolated, Domain-Driven Feature Sandboxes
+    ├── dashboard/       # Aggregation modules and trend charts
+    ├── tracker/         # Transactional calendar matrices and counters
+    ├── insights/        # Local rule-evaluation engines
+    └── data-management/ # Portability pipelines and background Web Workers
+4. Absolute Data Autonomy & Portability
+Because your health metrics belong solely to you, Healthino enforces complete data ownership and portability through specialized client-side toolings:
+
+💾 Backup & Restore (JSON Engine)
+Users can instantly download a single encrypted/packaged JSON backup payload containing their entire localized database profile and log matrix. This backup can be uploaded to any device or browser to fully rehydrate and revive the application instantly.
+
+⚙️ Multi-Threaded Heavy Processing (Web Workers)
+When generating complex long-term historical summaries or printing performance overviews, Healthino initiates a native Web Worker background thread. This isolates expensive computations away from the main UI pipeline, protecting the application from freezing and maintaining a smooth rendering environment.
+
+5. Local Setup & Production Compilation
+To spin up a local development build or compile the application for static asset hosting:
+
+Bash
+# Clone the repository
+git clone https://github.com/your-username/healthino.git
+
+# Enter project root
+cd healthino
+
+# Install production dependencies
+npm install
+
+# Launch local server
+npm run dev
+
+# Compile optimized static bundle for production
+npm run build
+The resulting dist/ directory outputs a set of flattened, lightweight static assets completely optimized for edge CDN deployment networks such as Cloudflare Pages or Vercel.
+
+Note on Privacy: Healthino does not collect cookies, utilize background tracking script layers, or stream logs to remote destinations. Your database remains 100% inside your device's browser sandbox.
