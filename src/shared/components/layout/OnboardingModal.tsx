@@ -4,33 +4,21 @@ import { useOnboardingForm } from '../../hooks/useOnboardingForm';
 
 export const OnboardingModal: React.FC = () => {
   const {
-    height,
-    weight,
-    age,
-    gender,
-    goal,
-    errors,
-    setHeight,
-    setWeight,
-    setAge,
-    setGender,
-    setGoal,
-    handleSubmit,
-    isSubmitting,
+    height, weight, age, gender, goal, errors,
+    setHeight, setWeight, setAge, setGender, setGoal,
+    handleSubmit, isSubmitting,
   } = useOnboardingForm();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Darkened Backdrop (blocking dismissal) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="absolute inset-0 bg-black backdrop-blur-sm"
+        className="absolute inset-0 bg-text-primary/30 backdrop-blur-md"
       />
 
-      {/* Modal Container */}
       <motion.div
         initial={{ scale: 0.95, opacity: 0, y: 15 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -39,9 +27,7 @@ export const OnboardingModal: React.FC = () => {
         className="relative bg-card-bg w-full max-w-md p-8 rounded-3xl shadow-xl border border-text-primary/10 z-10"
       >
         <div className="text-center mb-6">
-          <span className="text-3xl" role="img" aria-label="wave">
-            👋
-          </span>
+          <span className="text-3xl" role="img" aria-label="wave">👋</span>
           <h2 className="text-2xl font-extrabold text-text-primary mt-2">Welcome to Healthino</h2>
           <p className="text-text-primary/60 text-xs mt-1 leading-relaxed">
             Let's customize your profile. Your information remains privately stored in this browser.
@@ -49,30 +35,23 @@ export const OnboardingModal: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 font-sans">
-          {/* Inputs Row */}
           <div className="grid grid-cols-3 gap-3">
             <div className="flex flex-col">
-              <label htmlFor="height" className="text-xs font-semibold text-text-primary/70 mb-1">
-                Height (cm)
-              </label>
+              <label htmlFor="height" className="text-xs font-semibold text-text-primary/70 mb-1">Height (cm)</label>
               <input
                 id="height"
                 type="number"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 placeholder="175"
-                className={`w-full bg-background/60 border ${
-                  errors.height ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'
-                } px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
+                className={`w-full bg-background/60 border ${errors.height ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'} px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
                 required
               />
               {errors.height && <span className="text-[10px] text-alert mt-1 leading-tight">{errors.height}</span>}
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="weight" className="text-xs font-semibold text-text-primary/70 mb-1">
-                Weight (kg)
-              </label>
+              <label htmlFor="weight" className="text-xs font-semibold text-text-primary/70 mb-1">Weight (kg)</label>
               <input
                 id="weight"
                 type="number"
@@ -80,38 +59,29 @@ export const OnboardingModal: React.FC = () => {
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="75.0"
-                className={`w-full bg-background/60 border ${
-                  errors.weight ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'
-                } px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
+                className={`w-full bg-background/60 border ${errors.weight ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'} px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
                 required
               />
               {errors.weight && <span className="text-[10px] text-alert mt-1 leading-tight">{errors.weight}</span>}
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="age" className="text-xs font-semibold text-text-primary/70 mb-1">
-                Age (yrs)
-              </label>
+              <label htmlFor="age" className="text-xs font-semibold text-text-primary/70 mb-1">Age (yrs)</label>
               <input
                 id="age"
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
                 placeholder="30"
-                className={`w-full bg-background/60 border ${
-                  errors.age ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'
-                } px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
+                className={`w-full bg-background/60 border ${errors.age ? 'border-alert focus:ring-alert/20' : 'border-text-primary/15 focus:ring-accent-primary/20'} px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 transition-all`}
                 required
               />
               {errors.age && <span className="text-[10px] text-alert mt-1 leading-tight">{errors.age}</span>}
             </div>
           </div>
 
-          {/* Gender Select */}
           <div className="flex flex-col">
-            <label htmlFor="gender" className="text-xs font-semibold text-text-primary/70 mb-1">
-              Gender
-            </label>
+            <label htmlFor="gender" className="text-xs font-semibold text-text-primary/70 mb-1">Gender</label>
             <select
               id="gender"
               value={gender}
@@ -124,7 +94,6 @@ export const OnboardingModal: React.FC = () => {
             </select>
           </div>
 
-          {/* Goal Select */}
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-text-primary/70 mb-1">Your Primary Health Goal</label>
             <div className="grid grid-cols-3 gap-2">
@@ -145,7 +114,6 @@ export const OnboardingModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -158,3 +126,4 @@ export const OnboardingModal: React.FC = () => {
     </div>
   );
 };
+
