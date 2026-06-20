@@ -31,7 +31,7 @@ export const PDFReportButton: React.FC<PDFReportButtonProps> = ({
           variant="secondary"
           onClick={onGenerateReport}
           disabled={isGeneratingReport}
-          className="w-full md:w-auto h-11 flex items-center justify-center space-x-2"
+          className="w-full md:w-auto h-11 flex items-center justify-center space-x-2 text-xs sm:text-base"
         >
           {isGeneratingReport ? (
             <>

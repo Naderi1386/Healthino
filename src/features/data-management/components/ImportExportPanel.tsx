@@ -87,7 +87,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
               variant="primary"
               onClick={onExport}
               disabled={isExporting || isImporting}
-              className="w-full flex items-center justify-center space-x-2 h-11"
+              className="w-full flex items-center justify-center space-x-2 h-11 text-xs sm:text-base"
             >
               {isExporting ? (
                 <>
@@ -127,7 +127,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
               variant="outline"
               onClick={triggerFileSelect}
               disabled={isExporting || isImporting}
-              className="w-full flex items-center justify-center space-x-2 h-11"
+              className="w-full flex items-center justify-center space-x-2 h-11 text-xs sm:text-base"
             >
               {isImporting ? (
                 <>
